@@ -57,4 +57,7 @@ job = execute(circuit, real_backend)
 job_id = job.job_id()
 job_status = 0 #queued
 print(job_monitor(job))
+job_result = job.result()
+job_counts = job_result.get_counts()
+print(job_counts)
 
