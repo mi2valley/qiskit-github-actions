@@ -60,4 +60,5 @@ print(job_monitor(job))
 job_result = job.result()
 job_counts = job_result.get_counts()
 print(job_counts)
+plot_histogram(job_counts)
 
