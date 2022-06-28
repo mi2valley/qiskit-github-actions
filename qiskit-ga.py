@@ -17,7 +17,7 @@ IBMQ.load_account()
 provider = IBMQ.get_provider(hub='ibm-q', group='open', project='main')
 provider.backends()
 
-        # 最もすいているバックエンドを選びます
+# 最もすいているバックエンドを選びます
 large_enough_devices = IBMQ.get_provider(hub='ibm-q', group='open', project='main').backends(
     filters=lambda x: x.configuration().n_qubits > 4 and not x.configuration().simulator and x.configuration().quantum_volume > 16 ) # and not x.configuration().backend_name == "ibmq_manila" and not x.configuration().backend_name == "ibmq_bogota")
 print(large_enough_devices)
@@ -52,10 +52,8 @@ circuit.measure(qreg_q[3], creg_c[3])
 circuit.measure(qreg_q[4], creg_c[4])
 
 # execute
-# 上記のバックエンドで実行します
 job = execute(circuit, real_backend)
 job_id = job.job_id()
-job_status = 0 #queued
 print(job_monitor(job))
 job_result = job.result()
 job_counts = job_result.get_counts()
