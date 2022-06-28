@@ -1,0 +1,32 @@
+name: Qiskit-Github-Action
+
+on:
+  schedule:
+    - cron: "50 0 * * 0,3,4,5,6"
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      # Check out theis repo
+      - uses: actions/checkout@v2
+      # Start a Slack workflow using a webhook trigger
+      # https://github.com/slackapi/slack-github-action
+      - name: Setup Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: "3.8"
+          architecture: "x64"
+      - name: Get Python version
+        run: python -V
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+      - name: Run Python
+        run: python qiskit-ga.py
+        env:
+          IBMQ_TOKEN: ${{ secrets.IBMQ_TOKEN }}
