@@ -1,3 +1,4 @@
 matplotlib
 qiskit
 stability-sdk
+ipython
