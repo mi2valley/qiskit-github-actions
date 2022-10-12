@@ -26,7 +26,7 @@ jobs:
         run: pip install -r ./requirements/requirements-quantum-ai.txt
       - name: Run Quantum Computer
         run: |
-          huggingface-cli login
+          huggingface-cli login $DIFFUSION_TOKEN
           python ./app/quantum-ai.py
         env:
           DIFFUSION_TOKEN: ${{ secrets.DIFFUSION_TOKEN }}
