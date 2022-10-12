@@ -12,8 +12,11 @@ from PIL import Image
 # from stability_sdk import client
 # import stability_sdk.interfaces.gooseai.generation.generation_pb2 as generation
 import deepl
+from huggingface_hub import HfApi
+from huggingface_hub.commands.user import _login
 
-
+DIFFUSION_TOKEN=os.getenv("DIFFUSION_TOKEN")
+_login(HfApi(), token=DIFFUSION_TOKEN)
 IBMQ_TOKEN = os.getenv("IBMQ_TOKEN")
 IBMQ.save_account(str(IBMQ_TOKEN))
 
