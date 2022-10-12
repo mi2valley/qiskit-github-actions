@@ -5,3 +5,4 @@ ipython
 deepl
 diffusers
 huggingface_hub
+transformers
