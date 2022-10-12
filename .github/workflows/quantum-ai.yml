@@ -26,7 +26,6 @@ jobs:
         run: pip install -r ./requirements/requirements-quantum-ai.txt
       - name: Run Quantum Computer
         run: |
-          git config --global credential.helper
           python ./app/quantum-ai.py
         env:
           DIFFUSION_TOKEN: ${{ secrets.DIFFUSION_TOKEN }}
