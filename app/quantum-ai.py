@@ -9,18 +9,19 @@ import io
 import warnings
 from IPython.display import display
 from PIL import Image
-from stability_sdk import client
-import stability_sdk.interfaces.gooseai.generation.generation_pb2 as generation
+# from stability_sdk import client
+# import stability_sdk.interfaces.gooseai.generation.generation_pb2 as generation
+import deepl
 
 
 IBMQ_TOKEN = os.getenv("IBMQ_TOKEN")
 IBMQ.save_account(str(IBMQ_TOKEN))
 
-STABILITY_KEY = os.getenv("STABILITY_KEY")
-stability_api = client.StabilityInference(
-    key=str(STABILITY_KEY), 
-    verbose=True,
-)
+# STABILITY_KEY = os.getenv("STABILITY_KEY")
+# stability_api = client.StabilityInference(
+#     key=str(STABILITY_KEY), 
+#     verbose=True,
+# )
 
 
 # アカウント情報をロードして、使える量子デバイスを確認します
@@ -63,25 +64,47 @@ circuit.measure(qreg_q[3], creg_c[3])
 circuit.measure(qreg_q[4], creg_c[4])
 
 # execute
-job = execute(circuit, real_backend)
-job_id = job.job_id()
-print(job_monitor(job))
-job_result = job.result()
-job_counts = job_result.get_counts()
-print(job_counts)
-plot_histogram(job_counts)
+# job = execute(circuit, real_backend)
+# job_id = job.job_id()
+# print(job_monitor(job))
+# job_result = job.result()
+# job_counts = job_result.get_counts()
+# print(job_counts)
+# plot_histogram(job_counts)
 
-answers = stability_api.generate(
-    prompt="a photograph of an astronaut riding a horse"
-)
+# seedAs = open('./seedAs.json', 'r')
+# seedAs_dict = json.load(seedAs)
+# print('json_dict:{}'.format(type(seedAs_dict))) #dict
 
-for resp in answers:
-    for artifact in resp.artifacts:
-        if artifact.finish_reason == generation.FILTER:
-            warnings.warn(
-                "Your request activated the API's safety filters and could not be processed."
-                "Please modify the prompt and try again.")
-        if artifact.type == generation.ARTIFACT_IMAGE:
-            img = Image.open(io.BytesIO(artifact.binary))
-            display(img)
+# seedBs = open('./seedBs.json', 'r')
+# seedBs_dict = json.load(seedBs)
+# print('json_dict:{}'.format(type(seedBs_dict))) #dict
+
+# seedCs = open('./seedCs.json', 'r')
+# seedCs_dict = json.load(seedCs)
+# print('json_dict:{}'.format(type(seedCs_dict))) #dict
+
+
+# answers = stability_api.generate(
+#     prompt="a photograph of an astronaut riding a horse"
+# )
+
+# for resp in answers:
+#     for artifact in resp.artifacts:
+#         if artifact.finish_reason == generation.FILTER:
+#             warnings.warn(
+#                 "Your request activated the API's safety filters and could not be processed."
+#                 "Please modify the prompt and try again.")
+#         if artifact.type == generation.ARTIFACT_IMAGE:
+#             img = Image.open(io.BytesIO(artifact.binary))
+#             display(img)
+
+# make sure you're logged in with `huggingface-cli login`
+from diffusers import StableDiffusionPipeline
+
+pipe = StableDiffusionPipeline.from_pretrained("CompVis/stable-diffusion-v1-4", torch_type=torch.float16, revision="fp16")
+pipe = pipe.to("cuda")
+
+prompt = "a photo of an astronaut riding a horse on mars"
+image = pipe(prompt).images[0]  
 

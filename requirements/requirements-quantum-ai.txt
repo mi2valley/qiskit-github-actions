@@ -2,3 +2,6 @@ matplotlib
 qiskit
 stability-sdk
 ipython
+deepl
+diffusers
+huggingface_hub

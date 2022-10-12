@@ -25,7 +25,10 @@ jobs:
       - name: Install dependencies
         run: pip install -r ./requirements/requirements-quantum-ai.txt
       - name: Run Quantum Computer
-        run: python ./app/quantum-ai.py
+        run: |
+          huggingface-cli login
+          python ./app/quantum-ai.py
         env:
+          DIFFUSION_TOKEN: ${{ secrets.DIFFUSION_TOKEN }}
           IBMQ_TOKEN: ${{ secrets.IBMQ_TOKEN }}
           STABILITY_KEY: ${{ secrets.STABILITY_KEY }}
